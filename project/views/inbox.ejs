@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landlord Inbox</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .inbox-container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .bid-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .bid-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .bid-details {
+            margin: 10px 0;
+        }
+
+        .bid-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .accept-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .reject-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .status-pending {
+            color: #ffc107;
+        }
+
+        .status-accepted {
+            color: #28a745;
+        }
+
+        .status-rejected {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo"><a href="/">HomeStays</a></div>
+            <nav>
+                <ul class="menu">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="#">Destinations</a></li>
+                    <li><a href="#">Collections</a></li>
+                    <li><a href="#">Categories</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="inbox-container">
+        <h1>Your Inbox</h1>
+        
+        <% if (bids && bids.length > 0) { %>
+            <% bids.forEach(bid => { %>
+                <div class="bid-card">
+                    <div class="bid-header">
+                        <h3>Bid for <%= bid.house_description %></h3>
+                        <span class="status-<%= bid.status %>"><%= bid.status.toUpperCase() %></span>
+                    </div>
+                    <div class="bid-details">
+                        <p><strong>Tenant:</strong> <%= bid.tenant_name %></p>
+                        <p><strong>Email:</strong> <%= bid.tenant_email %></p>
+                        <p><strong>Bid Amount:</strong> ₹<%= bid.bid_amount %></p>
+                        <p><strong>Date:</strong> <%= new Date(bid.created_at).toLocaleDateString() %></p>
+                        <% if (bid.status === 'pending') { %>
+                            <div class="bid-actions">
+                                <button class="accept-btn" onclick="updateBidStatus('<%= bid.id %>', 'accepted')">Accept</button>
+                                <button class="reject-btn" onclick="updateBidStatus('<%= bid.id %>', 'rejected')">Reject</button>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>No bids received yet.</p>
+        <% } %>
+    </div>
+
+    <script>
+        function updateBidStatus(bidId, status) {
+            fetch(`/update-bid-status/${bidId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Error updating bid status');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while updating the bid status');
+            });
+        }
+    </script>
+</body>
+</html>

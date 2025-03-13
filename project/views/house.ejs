@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Details</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="house-card">
+            <% if (user && house.landlord_id === user.id) { %>
+                <a href="/house/edit/<%= house.id %>" class="edit-button">Edit</a>
+            <% } %>
+            <h1>House Details</h1>
+            <% if (house.image) { %>
+                <img src="/<%= house.image %>" alt="House Image">
+            <% } else { %>
+                <p class="no-image">No image available for this house.</p>
+            <% } %>
+            <p><strong>Description:</strong> <%= house.description %></p>
+            
+            <% if (!limitedView) { %>
+                <p><strong>Address:</strong> <%= house.address %></p>
+                <p><strong>Contact:</strong> <%= house.contact %></p>
+                <p><strong>Rent:</strong> ₹<%= house.rent %></p>
+                <% if (user && user.role === 'tenant') { %>
+                    <form action="/submit-bid" method="POST" class="bid-form" id="bidForm">
+                        <input type="hidden" name="house_id" value="<%= house.id %>">
+                        <input type="number" name="bid_amount" id="bidAmount" min="<%= Math.floor(house.rent/2) %>" 
+                               placeholder="Enter your bid amount (min: ₹<%= Math.floor(house.rent/2) %>)" required>
+                        <button type="submit" class="btn bid-btn">Submit Bid</button>
+                    </form>
+                <% } %>
+                <% if (user && user.role === 'landlord' && user.id === house.landlord_id) { %>
+                    <button class="btn delete-btn" onclick="confirmDelete('<%= house.id %>')">Remove</button>
+                <% } %>
+            <% } else { %>
+                <div class="login-prompt">
+                    <p>Please <a href="/login">login</a> to view contact details and rent information.</p>
+                </div>
+            <% } %>
+
+            <a href="/" class="btn back-btn">Back to Home</a>
+        </div>
+    </div>
+
+    <% if (!limitedView && user && (user.role === 'landlord' || user.role === 'tenant')) { %>
+    <script>
+        function confirmDelete(houseId) {
+            if (confirm('Are you sure you want to remove this house? This action cannot be undone.')) {
+                fetch('/house/delete/' + houseId, { 
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        alert('House removed successfully!');
+                        window.location.href = '/';
+                    } else {
+                        alert('Error: ' + (data.error || 'Unknown error occurred'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while deleting the house. Please try again later.');
+                });
+            }
+        }
+
+        <% if (user.role === 'tenant') { %>
+        document.getElementById('bidForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const bidAmount = parseFloat(document.getElementById('bidAmount').value);
+            const originalRent = <%= house.rent %>;
+            const minBidAmount = Math.floor(originalRent / 2);
+    
+            if (isNaN(bidAmount) || bidAmount < 0) {
+                alert('Please enter a valid bid amount!');
+                return;
+            }
+    
+            if (bidAmount < minBidAmount) {
+                alert('Bid amount cannot be less than half of the original rent (₹' + minBidAmount + ')');
+                return;
+            }
+    
+            this.submit();
+        });
+        <% } %>
+    </script>
+    <% } %>
+</body>
+</html>

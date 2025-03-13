@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create House Listing</title>
+    <link rel="stylesheet" href="/css/input.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Create House Listing</h1>
+        <form action="/create-house" method="POST" enctype="multipart/form-data">
+            <label for="image">House Image:</label>
+            <input type="file" name="image" required>
+            
+            <label for="description">Description:</label>
+            <textarea name="description" required></textarea>
+            
+            <label for="address">Address:</label>
+            <input type="text" name="address" required>
+            
+            <label for="contact">Contact No:</label>
+            <input type="text" name="contact" required>
+            
+            <label for="rent">Rent Price:</label>
+            <input type="number" name="rent" required>
+            
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

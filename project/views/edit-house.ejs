@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit House Listing</title>
+    <link rel="stylesheet" href="/css/input.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Edit House Listing</h1>
+        <form action="/house/update/<%= house.id %>" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="image">House Image:</label>
+                <input type="file" name="image">
+                <% if (house.image) { %>
+                    <img src="/<%= house.image %>" alt="Current House Image" style="max-width: 200px; margin-top: 10px;">
+                    <p class="help-text">Leave empty to keep current image</p>
+                <% } %>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea name="description" required><%= house.description %></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" name="address" value="<%= house.address %>" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="contact">Contact No:</label>
+                <input type="text" name="contact" value="<%= house.contact %>" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="rent">Rent Price:</label>
+                <input type="number" name="rent" value="<%= house.rent %>" required>
+            </div>
+            
+            <div class="button-group">
+                <button type="submit" class="btn update-btn">Update</button>
+                <a href="/house/<%= house.id %>" class="btn cancel-btn">Cancel</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

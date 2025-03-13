@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm" action="/login" method="POST">
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username">
+            </div>
+            <div class="input-group password-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password">
+                <i class="fas fa-eye" id="togglePassword"></i>
+            </div>
+
+            <div class="input-group role-group">
+                <label>Select Role:</label>
+                <div class="role-options">
+                    <label for="landlord">
+                        <input type="radio" id="landlord" name="role" value="landlord"> Landlord
+                    </label>
+                    <label for="tenant">
+                        <input type="radio" id="tenant" name="role" value="tenant"> Tenant
+                    </label>
+                </div>
+            </div>
+
+            <div class="additional-options">
+                <a href="/signup">Sign Up</a>
+                <a href="#" id="forgotPassword">Forgot Password?</a>
+            </div>
+
+            <% if (locals.error) { %>
+            <div class="error-message" id="errorMessage"><%= error %></div>
+            <% } else { %>
+            <div class="error-message" id="errorMessage"></div>
+            <% } %>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <div class="separator">OR</div>
+
+        <div class="google-login">
+            <button id="googleLogin">
+                <i class="fab fa-google"></i> Login with Google
+            </button>
+        </div>
+    </div>
+
+    <script src="/js/login.js"></script>
+</body>
+</html>

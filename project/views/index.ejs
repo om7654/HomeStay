@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME Stays</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="header-container">
+            <div class="logo">HOME</div>
+            <nav>
+                <ul class="menu">
+                    <li>
+                        <a href="#">Destinations</a>
+                        <div class="dropdown-content">
+                            <a href="#" onclick="searchCity('Mumbai')">Mumbai</a>
+                            <a href="#" onclick="searchCity('Thane')">Thane</a>
+                            <a href="#" onclick="searchCity('Kalyan')">Kalyan</a>
+                            <a href="#" onclick="searchCity('Dadar')">Dadar</a>
+                        </div>
+                    </li>
+                    <li><a href="#">Collections</a></li>
+                    <li><a href="#">Categories</a></li>
+                </ul>
+            </nav>
+            <div class="header-right">
+                <% if (user && user.role === 'landlord') { %>
+                    <a href="/create-house" class="btn">List Your Home</a>
+                <% } %>
+                <% if (user) { %>
+                    <span class="welcome-text">Welcome, <%= user.username %></span>
+                    <% if (user.role === 'landlord') { %>
+                        <a href="/inbox" class="btn">Inbox</a>
+                    <% } else if (user.role === 'tenant') { %>
+                        <a href="/tenant-inbox" class="btn">My Inbox</a>
+                    <% } %>
+                    <a href="/logout" class="btn">Logout</a>
+                <% } else { %>
+                    <a href="/login" class="btn">Log In</a>
+                <% } %>
+            </div>
+        </div>
+    </header>
+
+    <!-- Search Section -->
+   <!-- Search Section -->
+    <section class="search-bar-section">
+        <form class="search-container" id="searchForm" action="/search" method="GET">
+            <input type="text" id="searchInput" name="query" placeholder="Enter city name..." required>
+            <button type="submit">Search</button>
+        </form>
+    </section>
+
+    
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Where Families Bond</h1>
+    </section>
+
+    <!-- Featured Listings Section -->
+    <h2 class="featured-title">Featured Listings</h2>
+    
+    <!-- Box Container -->
+    <section class="box-container">
+        <% if (houses.length > 0) { %>
+            <% houses.forEach(house => { %>
+                <div class="box">
+                    <% if (house.image) { %>
+                        <img src="/<%= house.image %>" alt="House Image">
+                    <% } else { %>
+                        <img src="/images/placeholder.png" alt="No Image Available">
+                    <% } %>
+                    <p class="price">₹<%= house.rent %>/month</p>
+                    <p><%= house.description %></p>
+                    <a href="/house/<%= house.id %>" class="btn">View Details</a>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>No houses available at the moment. Check back later!</p>
+        <% } %>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>About Us</h3>
+                <p>At HomeStays, we offer Houses and flats for rent where families and friends can create unforgettable memories.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Destinations</a></li>
+                    <li><a href="#">Collections</a></li>
+                    <li><a href="#">Categories</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiXN9xSEe8unzPBEQOeAKXd9Q55efGHGB9BA&s" alt="Facebook"></a>
+                    <a href="#"><img src="https://img.freepik.com/free-vector/new-2023-twitter-logo-x-icon-design_1017-45418.jpg" alt="Twitter"></a>
+                    <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2048px-Instagram_logo_2016.svg.png" alt="Instagram"></a>
+                    <a href="#"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUscvWCdNQbE-x-rvs4SEcjJaQ9yOBbt7CSA&s" alt="LinkedIn"></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 HomeStays. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+
+<!-- Add this script before closing body tag -->
+<script>
+function searchCity(city) {
+    document.getElementById('searchInput').value = city;
+    document.getElementById('searchForm').submit();
+}
+</script>

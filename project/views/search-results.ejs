@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - Rent Management</title>
+    <link rel="stylesheet" href="/css/search-results.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo"><a href="/">HomeStays</a></div>
+            <nav>
+                <ul class="menu">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="#">Destinations</a></li>
+                    <li><a href="#">Collections</a></li>
+                    <li><a href="#">Categories</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Search Results -->
+    <section class="search-results">
+        <h1>Search Results for "<%= query %>"</h1>
+        
+        <% if (houses.length > 0) { %>
+            <div class="box-container">
+                <% houses.forEach(house => { %>
+                    <div class="box">
+                        <div class="house-card">
+                            <% if (house.image) { %>
+                                <img src="/<%= house.image %>" alt="House Image">
+                            <% } %>
+                            <p><%= house.description %></p>
+                            
+                            <% if (!limitedView) { %>
+                                <p>Address: <%= house.address %></p>
+                                <p>Rent: ₹<%= house.rent %></p>
+                            <% } %>
+                        </div>
+                        <a href="/house/<%= house.id %>" class="btn">View Details</a>
+                    </div>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <p class="no-results">No houses found for "<%= query %>". Try another search.</p>
+        <% } %>
+    </section>
+
+</body>
+</html>
