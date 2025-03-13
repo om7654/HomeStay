@@ -1,0 +1,167 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+
+.role-options {
+    display: flex;
+    gap: 20px; /* Space between the Landlord and Tenant options */
+}
+
+.role-options label {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between radio button and label text */
+}
+
+
+.password-group {
+    position: relative;
+}
+
+.password-group i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-15%);
+    cursor: pointer;
+    color: #aaa;
+    font-size: 18px;
+    padding: 5px;
+    transition: color 0.3s ease;
+}
+
+.password-group i:hover {
+    color: #555;
+}
+
+
+.additional-options {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+.additional-options a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.additional-options a:hover {
+    text-decoration: underline;
+}
+
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.separator {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+.separator:before,
+.separator:after {
+    content: '';
+    display: inline-block;
+    width: 40%;
+    height: 1px;
+    background-color: #ccc;
+    position: absolute;
+    top: 50%;
+}
+
+.separator:before {
+    left: 0;
+}
+
+.separator:after {
+    right: 0;
+}
+
+
+.google-login button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4285F4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.google-login button i {
+    margin-right: 10px;
+}
+
+.google-login button:hover {
+    background-color: #357ae8;
+}
